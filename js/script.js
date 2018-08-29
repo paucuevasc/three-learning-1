@@ -3,6 +3,7 @@ var camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeigh
 var renderer = new THREE.WebGLRenderer();
 var prevCubeC =0;
 var cubeC;
+var firstCoords=[null,null,null];
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
@@ -14,6 +15,20 @@ cube.scale.x=cubeC;
 cube.scale.y=cubeC;
 cube.scale.z=cubeC;
 
+}
+
+function lineDrawer(){
+	console.log("ok");
+	var coords=document.querySelector("#option2").value.split(',');
+	if (firstCoords!=coords){
+	var material = new THREE.LineBasicMaterial( { color: 0x0000ff } );
+	var geometry = new THREE.Geometry();
+	geometry.vertices.push(new THREE.Vector3( firstCoords[0], firstCoords[1], firstCoords[2] ));
+	geometry.vertices.push(new THREE.Vector3( coords[0],coords[1], coords[2]) );
+	var line = new THREE.Line( geometry, material );
+	scene.add(line);
+	}
+	firstCoords=coords;
 }
 //Create the shape
 var geometry=new THREE.BoxGeometry(cubeC,cubeC,cubeC);
@@ -42,7 +57,8 @@ var update = function(){
 	}
 cube.rotation.x +=0.01;
 cube.rotation.y +=0.01;
-line.rotation.z +=0.03;
+	
+
 };
 
 var render = function(){
