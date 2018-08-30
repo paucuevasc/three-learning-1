@@ -1,12 +1,21 @@
 var scene = new THREE.Scene();
 var camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight,0.1,1000);
-var renderer = new THREE.WebGLRenderer();
+
 var prevCubeC =0;
 var cubeC;
 var firstCoords=[null,null,null];
+
+var renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
+window.addEventListener('resize',function(){
+	var width=window.innerWidth;
+	var height=window.innerHeight;
+	renderer.setSize(width,height);
+	camera.aspect=width/height;
+	camera.updateProjectionMatrix();
+})
 
 function cubeModificator(){
 	//Create the shape
@@ -30,6 +39,7 @@ function lineDrawer(){
 	}
 	firstCoords=coords;
 }
+controls=new THREE.OrbitControls(camera,renderer.domElement);
 //Create the shape
 var geometry=new THREE.BoxGeometry(cubeC,cubeC,cubeC);
 
@@ -38,14 +48,7 @@ var material = new THREE.MeshBasicMaterial({color:0xFFFFFF,wireframe:false});
 var cube=new THREE.Mesh(geometry, material);
 scene.add(cube);
 
-var material = new THREE.LineBasicMaterial( { color: 0x0000ff } );
-var geometry = new THREE.Geometry();
-geometry.vertices.push(new THREE.Vector3( -1, 0, 0) );
-geometry.vertices.push(new THREE.Vector3( 0, 1, 0) );
-geometry.vertices.push(new THREE.Vector3( 1, 0, 0) );
-geometry.vertices.push(new THREE.Vector3( 1, 1, 0) );
-var line = new THREE.Line( geometry, material );
-scene.add(line);
+
 camera.position.z=10;
 
 var update = function(){
